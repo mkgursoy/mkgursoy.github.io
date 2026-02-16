@@ -1,5 +1,64 @@
-<div>
-  <text>
-    HELLLO
-  </text>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Public GitHub Projects</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f4f4f9;
+      color: #333;
+      padding: 50px;
+    }
+
+    h1 {
+      margin-bottom: 40px;
+    }
+
+    .repo-button {
+      display: inline-block;
+      padding: 15px 25px;
+      margin: 10px;
+      font-size: 18px;
+      text-decoration: none;
+      color: #fff;
+      background-color: #24292e;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+
+    .repo-button:hover {
+      background-color: #444c56;
+    }
+  </style>
+</head>
+<body>
+  <h1>My Public GitHub Projects</h1>
+  <div id="repo-container">Loading repositories...</div>
+
+  <script>
+    const username = "mkgursoy";
+    const container = document.getElementById("repo-container");
+
+    fetch(`https://api.github.com/users/${username}/repos?sort=updated`)
+      .then(response => response.json())
+      .then(repos => {
+        container.innerHTML = "";
+        repos.forEach(repo => {
+          const a = document.createElement("a");
+          a.href = repo.html_url;
+          a.target = "_blank";
+          a.className = "repo-button";
+          a.textContent = repo.name;
+          container.appendChild(a);
+        });
+      })
+      .catch(error => {
+        console.error("Error fetching repos:", error);
+        container.textContent = "Failed to load repositories.";
+      });
+  </script>
+</body>
+</html>
